@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Pack } from "@potion/layout";
-import { Svg, Circle } from "@potion/element";
+import { Svg, Circle, Ribbon } from "@potion/element";
+import { Chord } from "@potion/layout";
 
 const Bubbles = ({ colors }) => {
   const [bubbleData, setBubbleData] = useState([]);
+
   useEffect(() => {
     const generateBubbleData = colors.map((_, i) => ({
       value: Math.floor(Math.random() * (colors.length * 2)) + 1,
@@ -15,6 +17,45 @@ const Bubbles = ({ colors }) => {
   return (
     <div className="bubble-wrap">
       <p>bubbles</p>
+
+      <Svg width={400} height={400}>
+        <Chord
+          data={[
+            [11975, 5871, 8916, 868, 1234, 2345, 4567],
+            [1951, 10048, 2060, 6171, 4321, 322, 435],
+            [8010, 16145, 8090, 8045, 4534, 212, 5432],
+            [1013, 812, 4423, 19382, 236, 762, 82],
+            [7895, 990, 940, 6907, 5543, 122, 1231],
+            [1013, 214, 443, 2357, 4745, 262, 2355],
+            [9726, 726, 88, 1023, 847, 222, 9898]
+          ]}
+          animate
+          nodeEnter={d => ({
+            ...d,
+            sourceStartAngle: d.sourceEndAngle,
+            targetStartAngle: d.targetEndAngle
+          })}
+          animate
+        >
+          {nodes =>
+            nodes.map((node, i) => {
+              if (i < colors.length) {
+                return (
+                  <Ribbon
+                    {...node}
+                    fill={colors[i].code.hex}
+                    stroke={colors[i].code.hex}
+                    fillOpacity={0.9}
+                    radius={400 * 0.4}
+                    transform={{ translate: [200, 200] }}
+                  />
+                );
+              }
+              return null;
+            })
+          }
+        </Chord>
+      </Svg>
       <Svg width={400} height={400}>
         <Pack
           data={{

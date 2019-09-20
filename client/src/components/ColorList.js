@@ -87,7 +87,7 @@ const ColorList = ({ colors, updateColors, getData }) => {
       </ul>
       {editing && (
         <form onSubmit={saveEdit}>
-          <legend>edit color</legend>
+          <legend className="edit-color-legend">Edit Color</legend>
           <label>
             color name:
             <input

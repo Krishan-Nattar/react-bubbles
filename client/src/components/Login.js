@@ -35,6 +35,7 @@ const Login = props => {
           onChange={handleChange}
         />
         <Input
+          type="password"
           placeholder="Enter Password..."
           name="password"
           value={creds.password}

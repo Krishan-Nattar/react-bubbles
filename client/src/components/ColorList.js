@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosWithAuth } from "./AxiosAuth";
+import { Input, Button } from "semantic-ui-react";
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+const ColorList = ({ colors, updateColors, getData }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -18,13 +18,52 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+    console.log(colorToEdit);
+    axiosWithAuth()
+      .put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        getData();
+        setEditing(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const deleteColor = color => {
-    // make a delete request to delete this color
+    axiosWithAuth()
+      .delete(`/colors/${color.id}`)
+      .then(res => {
+        getData();
+        setEditing(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const [newColor, setNewColor] = useState({
+    color: "",
+    code: {
+      hex: ""
+    }
+  });
+  const handleAdd = e => {
+    e.preventDefault();
+    axiosWithAuth()
+      .post("/colors", newColor)
+      .then(res => {
+        updateColors(res.data);
+        setNewColor({
+          color: "",
+          code: {
+            hex: ""
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -48,7 +87,7 @@ const ColorList = ({ colors, updateColors }) => {
       </ul>
       {editing && (
         <form onSubmit={saveEdit}>
-          <legend>edit color</legend>
+          <legend className="edit-color-legend">Edit Color</legend>
           <label>
             color name:
             <input
@@ -76,7 +115,39 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
+      <form onSubmit={handleAdd} className="add-form">
+        <Input
+          placeholder="Color Name"
+          name="color"
+          value={newColor.color}
+          onChange={e => {
+            setNewColor({
+              ...newColor,
+              color: e.target.value
+            });
+          }}
+        />
+        <Input
+          placeholder="Hex Code"
+          name="hex"
+          value={newColor.code.hex}
+          onChange={e => {
+            setNewColor({
+              ...newColor,
+              code: {
+                hex: e.target.value
+              }
+            });
+          }}
+        />
+        <Button>Add New Color</Button>
+      </form>
       <div className="spacer" />
+      {/* color: "",
+    code: {
+      hex: ""
+    } */}
+
       {/* stretch - build another form here to add a color */}
     </div>
   );

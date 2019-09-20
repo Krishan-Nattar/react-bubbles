@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { axiosWithAuth } from "./AxiosAuth";
-import {Form, Input, Button} from 'semantic-ui-react';
+import { Input, Button } from "semantic-ui-react";
 
 const initialColor = {
   color: "",
@@ -49,24 +48,23 @@ const ColorList = ({ colors, updateColors, getData }) => {
       hex: ""
     }
   });
-  const handleAdd = e =>{
+  const handleAdd = e => {
     e.preventDefault();
     axiosWithAuth()
-    .post('/colors', newColor)
-    .then(res=>{
-      // console.log(res);
-      updateColors(res.data);
-      setNewColor({
-        color: "",
-        code: {
-          hex: ""
-        }
+      .post("/colors", newColor)
+      .then(res => {
+        updateColors(res.data);
+        setNewColor({
+          color: "",
+          code: {
+            hex: ""
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
+  };
 
   return (
     <div className="colors-wrap">
@@ -118,18 +116,30 @@ const ColorList = ({ colors, updateColors, getData }) => {
         </form>
       )}
       <form onSubmit={handleAdd} className="add-form">
-        <Input placeholder="Color Name" name="color" value={newColor.color} onChange={(e)=>{setNewColor({
-          ...newColor,
-          color: e.target.value
-        })}} />
-        <Input placeholder="Hex Code" name="hex" value={newColor.code.hex} onChange={e=>{
-          setNewColor({
-            ...newColor,
-            code: {
-              hex: e.target.value
-            }
-          })
-        }} />
+        <Input
+          placeholder="Color Name"
+          name="color"
+          value={newColor.color}
+          onChange={e => {
+            setNewColor({
+              ...newColor,
+              color: e.target.value
+            });
+          }}
+        />
+        <Input
+          placeholder="Hex Code"
+          name="hex"
+          value={newColor.code.hex}
+          onChange={e => {
+            setNewColor({
+              ...newColor,
+              code: {
+                hex: e.target.value
+              }
+            });
+          }}
+        />
         <Button>Add New Color</Button>
       </form>
       <div className="spacer" />
@@ -137,7 +147,7 @@ const ColorList = ({ colors, updateColors, getData }) => {
     code: {
       hex: ""
     } */}
-      
+
       {/* stretch - build another form here to add a color */}
     </div>
   );

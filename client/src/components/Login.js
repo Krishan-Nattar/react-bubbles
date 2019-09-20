@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import {axiosWithAuth} from './AxiosAuth';
+import {Input, Button} from 'semantic-ui-react';
 
 const Login = (props) => {
   // make a post request to retrieve a token from the api
@@ -35,11 +36,11 @@ const Login = (props) => {
   }
   return (
     <>
-      <h1>Login to see bubbles!</h1>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Enter Username..." name="username" value ={creds.username} onChange ={handleChange}/>
-        <input placeholder="Enter Password..." name="password" value ={creds.password} onChange={handleChange}/>
-        <button>Submit</button>
+      {/* <h1>Login to see bubbles!</h1> */}
+      <form onSubmit={handleSubmit} className="login-form">
+        <Input placeholder="Enter Username..." name="username" value ={creds.username} onChange ={handleChange}/>
+        <Input placeholder="Enter Password..." name="password" value ={creds.password} onChange={handleChange}/>
+        <Button>Submit</Button>
       </form>
     </>
   );

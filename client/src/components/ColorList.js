@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { axiosWithAuth } from "./AxiosAuth";
+import {Form, Input, Button} from 'semantic-ui-react';
 
 const initialColor = {
   color: "",
@@ -55,6 +56,12 @@ const ColorList = ({ colors, updateColors, getData }) => {
     .then(res=>{
       // console.log(res);
       updateColors(res.data);
+      setNewColor({
+        color: "",
+        code: {
+          hex: ""
+        }
+      });
     })
     .catch(err=>{
       console.log(err);
@@ -110,12 +117,12 @@ const ColorList = ({ colors, updateColors, getData }) => {
           </div>
         </form>
       )}
-      <form onSubmit={handleAdd}>
-        <input placeholder="Color Name" name="color" value={newColor.color} onChange={(e)=>{setNewColor({
+      <form onSubmit={handleAdd} className="add-form">
+        <Input placeholder="Color Name" name="color" value={newColor.color} onChange={(e)=>{setNewColor({
           ...newColor,
           color: e.target.value
         })}} />
-        <input placeholder="Hex Code" name="hex" value={newColor.code.hex} onChange={e=>{
+        <Input placeholder="Hex Code" name="hex" value={newColor.code.hex} onChange={e=>{
           setNewColor({
             ...newColor,
             code: {
@@ -123,7 +130,7 @@ const ColorList = ({ colors, updateColors, getData }) => {
             }
           })
         }} />
-        <button>Add New Color</button>
+        <Button>Add New Color</Button>
       </form>
       <div className="spacer" />
       {/* color: "",

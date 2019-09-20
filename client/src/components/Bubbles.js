@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pack } from "@potion/layout";
-import { Svg, Circle, Ribbon } from "@potion/element";
+import { Svg, Circle, Ribbon, SymbolShape, Rect } from "@potion/element";
 import { Chord } from "@potion/layout";
 
 const Bubbles = ({ colors }) => {
@@ -16,7 +16,7 @@ const Bubbles = ({ colors }) => {
 
   return (
     <div className="bubble-wrap">
-      <p>bubbles</p>
+      <h1>Chords</h1>
 
       <Svg width={400} height={400}>
         <Chord
@@ -56,6 +56,8 @@ const Bubbles = ({ colors }) => {
           }
         </Chord>
       </Svg>
+
+      <h1>Balloons</h1>
       <Svg width={400} height={400}>
         <Pack
           data={{
@@ -71,7 +73,7 @@ const Bubbles = ({ colors }) => {
             nodes
               .map(({ x, y, r, key }, i) => {
                 if (i < colors.length) {
-                  return (
+                  return (<>
                     <Circle
                       key={key}
                       cx={x}
@@ -79,6 +81,8 @@ const Bubbles = ({ colors }) => {
                       r={r}
                       fill={colors[i].code.hex}
                     />
+                    <Rect x={x} y={y} width={r} height={r} fill={colors[i].code.hex} />
+                    </>
                   );
                 }
                 return null;

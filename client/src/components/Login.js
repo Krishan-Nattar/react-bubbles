@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
+import {axiosWithAuth} from './AxiosAuth';
 
 const Login = () => {
   // make a post request to retrieve a token from the api
@@ -8,6 +9,20 @@ const Login = () => {
     username: "",
     password: ""
   })
+  const handleSubmit = e=>{
+    e.preventDefault();
+    // console.log("submit");
+    // console.log(creds);
+    axiosWithAuth()
+    .get('/login')
+    .then(res=>{
+      console.log(res);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    
+  }
   const handleChange = e =>{
     setCreds({
       ...creds,
@@ -18,7 +33,7 @@ const Login = () => {
   return (
     <>
       <h1>Login to see bubbles!</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input placeholder="Enter Username..." name="username" value ={creds.username} onChange ={handleChange}/>
         <input placeholder="Enter Password..." name="password" value ={creds.password} onChange={handleChange}/>
         <button>Submit</button>
